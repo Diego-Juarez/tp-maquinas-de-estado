@@ -17,4 +17,68 @@ El soldador permanecerá en éste valor inferior de temperatura mientras se mant
 
 ### Diagrama
 
-![Diagrama](https://github.com/Diego-Juarez/tp-maquinas-de-estado/blob/master/recursos/Imagen%20diagrama(Info%202%20TP).png) 
+![Diagrama](https://github.com/Diego-Juarez/tp-maquinas-de-estado/blob/master/recursos/Imagen%20diagrama(Info%202%20TP).png)
+
+## Mecánica de la máquina de estado
+
+### Código
+
+- Archivo de cabecera __mylib.h__
+
+~~~c
+#ifndef MYLIB_H_INCLUDED
+#define MYLIB_H_INCLUDED
+#include <stdio.h>
+
+typedef enum {
+    espera  = 0,
+    calentar= 1,
+    soldar  = 2,
+    enfriar = 3,
+    reposo  = 4
+}estados_t;
+
+typedef struct {
+    char unidad;         // Unidad de temperatura
+    int  temperatura;    // temperatura del soldador
+    int  tiempo;         // tiempo para activacion de reposo automatico
+}params_t;
+
+params_t f_inicio(void); // lee el archivo de configuracion y carga las variables.
+
+estados_t f_espera(params_t);
+estados_t f_calentar(params_t);
+estados_t f_soldar(params_t);
+estados_t f_enfriar(params_t);
+estados_t f_reposo(params_t);
+
+#endif // MYLIB_H_INCLUDED
+~~~
+
+- Archivo __main.c__
+
+~~~c
+#include "mylib.h"
+
+int main() {
+    params_t config;
+    config = f_inicio();
+    printf("\nFSM - Estacion de soldado\n\n");
+    printf("Configuracion inicial: Temp_unidad = %c, Temp_op = %d, tiempo_reposo = %d\n", config.unidad, config.temperatura, config.tiempo);
+    estados_t estado = espera; // primer estado
+    estados_t (*maquina[])(params_t) = {f_espera, f_calentar, f_soldar, f_enfriar, f_reposo};
+    while(1) estado = (*maquina[estado])(config);
+    return 0;
+} 
+~~~
+- Archivo __config.conf__
+
+~~~bash
+# Unidad de temperatura (C para ºC; F para ºF)
+Temp_unidad C
+# Temperatura de operacion (por defecto, en ºC)
+Temp_op 350
+# Tiempo de activacion para reposo automatico
+tiempo_reposo 15
+~~~
+
