@@ -16,7 +16,7 @@ El soldador permanecerá en éste valor inferior de temperatura mientras se mant
 
 ### Diagrama
 
-![Diagrama 2](https://github.com/Diego-Juarez/tp-maquinas-de-estado/blob/master/recursos/Imagen%20diagrama%202%20(Info%202%20TP).png)
+![Diagrama](https://github.com/Diego-Juarez/tp-maquinas-de-estado/blob/master/recursos/Imagen%20Diagrama%203%20(Info%202%20TP).png) 
 
 ### Código (abreviado)
 
